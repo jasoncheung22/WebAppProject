@@ -1,4 +1,4 @@
-Create a Batabase in NetBeans for temp user account login
+Create a Database in NetBeans for temp user account login
 
 The Java DB:
 DBname:UserAccount
