@@ -17,6 +17,13 @@
                     <li class="nav-item">
                         <a class="nav-link" href="<c:url value="/item/create" />">Create Item</a>
                     </li>
+
+                    <security:authorize access="hasRole('ADMIN')">
+                        <li class="nav-item">
+                            <a class="nav-link" href="<c:url value="/user" />">Manage User Accounts</a>
+                        </li>
+                    </security:authorize>
+
                 </ul>
                 <security:authorize access = "isAnonymous()">
                     <button class="btn btn-dark" type="button" onclick="window.location.href = '<c:url value="/login" />'">Login</button>
@@ -33,33 +40,32 @@
         <div class="container">
             <div class="jumbotron jumbotron-fluid">
                 <div class="container">
-                <h1 class="display-4">Items</h1>
-                <c:choose>
-                    <c:when test="${fn:length(itemDatabase) == 0}">
-                        <p class="lead"><i>There are no items in the system.</i></p>
-                    </c:when>
-                    <c:otherwise>
-                        <c:forEach items="${itemDatabase}" var="entry">
-                            <p class="lead">Item ${entry.key}:</p>
-                            <p class="lead"> <a href="<c:url value="/item/view/${entry.key}" />">
-                                    <c:out value="${entry.value.subject}" /></a></p>
-                            <p class="lead"> (customer: <c:out value="${entry.value.customerName}" />)</p>
-                            <security:authorize access = "!isAnonymous()">
-                                <p class="lead">
-                                <security:authorize access="hasRole('ADMIN') or principal.username=='${entry.value.customerName}'">
-                                [<a href="<c:url value="/item/edit/${entry.key}" />">Edit</a>]
+                    <h1 class="display-4">Items</h1>
+                    <c:choose>
+                        <c:when test="${fn:length(itemDatabase) == 0}">
+                            <p class="lead"><i>There are no items in the system.</i></p> 
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach items="${itemDatabase}" var="item">
+                                Ticket ${item.id}:
+                                <a href="<c:url value="/item/view/${item.id}" />">
+                                    <c:out value="${item.subject}" /></a>
+                                (customer: <c:out value="${item.customerName}" />)
+                                <security:authorize access = "!isAnonymous()">
+                                <security:authorize access="hasRole('ADMIN') or
+                                                    principal.username=='${item.customerName}'">
+                                    [<a href="<c:url value="/item/edit/${item.id}" />">Edit</a>]
                                 </security:authorize>
-                                <security:authorize access="hasRole('ADMIN')">
-                                    [<a href="<c:url value="/item/delete/${entry.key}" />">Delete</a>]
+                                <security:authorize access="hasRole('ADMIN') or principal.username=='${item.customerName}'">
+                                    [<a href="<c:url value="/item/delete/${item.id}" />">Delete</a>]
                                 </security:authorize>
-                                    </p>
-                            </security:authorize>
-                            <br />
-                        </c:forEach>
-                    </c:otherwise>
-                </c:choose>
-            </div>
+                                    </security:authorize>
+                                <br /><br />
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
+            </div>
         </div>
     </body>
 </html>

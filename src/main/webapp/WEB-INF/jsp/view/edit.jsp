@@ -43,7 +43,7 @@
                     <form:label path="body">Body</form:label><br/>
                     <form:textarea path="body" rows="5" cols="30" /><br/><br/>
                     </div>
-                    <c:if test="${item.numberOfAttachments > 0}">
+                    <c:if test="${fn:length(item.attachments) > 0}">
                         <b>Attachments:</b><br/>
                         <ul>
                             <c:forEach items="${item.attachments}" var="attachment">
@@ -59,7 +59,7 @@
                     <input type="file" name="attachments" multiple="multiple"/><br/><br/>
                     <input type="submit" value="Save"/>
                 </form:form>
-                    
+                    <a href="<c:url value="/ticket" />">Return to list tickets</a>
             </div>      
         </div>  
     </body>

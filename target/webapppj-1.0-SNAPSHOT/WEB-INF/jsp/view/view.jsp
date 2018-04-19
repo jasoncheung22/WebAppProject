@@ -46,18 +46,18 @@
                 </security:authorize>
                 <br /><br />
                 <p class="lead">
-                    <i>Customer Name - <c:out value="${item.customerName}" /></i><br /><br />
-                    <c:out value="${item.body}" /><br /><br /> </p>
-                    <c:if test="${item.numberOfAttachments > 0}">
-                    <p class="lead"> Attachments:</p>
-                    <c:forEach items="${item.attachments}" var="attachment" varStatus="status">
+                <i>Customer Name - <c:out value="${item.customerName}" /></i><br /><br />
+                <c:out value="${item.body}" /><br /><br /></p>
+                <c:if test="${fn:length(item.attachments) > 0}">
+                    Attachments:
+                    <c:forEach items="${item.attachments}" var="attachment"
+                               varStatus="status">
                         <c:if test="${!status.first}">, </c:if>
-                            <p class="lead"> 
-                                <a href="<c:url value="/item/${itemId}/attachment/${attachment.name}" />">
-                                <c:out value="${attachment.name}" /></a></p>
+                        <a href="<c:url value="/item/${item.id}/attachment/${attachment.name}" />">
+                            <c:out value="${attachment.name}" /></a>
                     </c:forEach><br /><br />
                 </c:if>
-                <p class="lead">  <a href="<c:url value="/item" />">Return to list items</a></p>
+                <a href="<c:url value="/item" />">Return to list items</a>
             </div>      
         </div>  
     </body>
