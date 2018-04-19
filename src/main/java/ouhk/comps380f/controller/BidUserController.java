@@ -79,7 +79,7 @@ public class BidUserController {
                 form.getPassword(), form.getRoles()
         );
         bidUserRepo.save(user);
-        return new RedirectView("/user/list", true);
+        return new RedirectView("/item/list", true);
     }
 
     @RequestMapping(value = "delete/{username}", method = RequestMethod.GET)

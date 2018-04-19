@@ -18,6 +18,9 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="#">Create Item<span class="sr-only">(current)</span></a>
                     </li>
+                    <li class="nav-item">
+                     <a class="nav-link" href="<c:url value="/user" />">Manage User Accounts<span class="sr-only">(current)</span></a>
+                </li>
                 </ul>
                 <security:authorize access = "isAnonymous()">
                     <button class="btn btn-dark" type="button" onclick="window.location.href = '<c:url value="/login" />'">Login</button>
@@ -40,18 +43,18 @@
                     <div class="form-group">
                     <form:label path="subject">Subject</form:label><br/>
                     </div>
-                    <form:input type="text" path="subject" /><br/><br/>
+                    <form:input type="text" path="subject" required="required"/><br/><br/>
                     <div class="form-group">
                     <form:label path="body">Body</form:label><br/>
                     <form:textarea path="body" rows="5" cols="30" /><br/><br/>
                     </div>
                     <div class="form-group">
                     <form:label path="price">Price</form:label><br/>
-                    $<form:input path="price" type="number" maxlength="20"/><br/><br/>
+                    $<form:input path="price" type="number" maxlength="20" required="required"/><br/><br/>
                     </div>
                     <div class="form-group">
                     <form:label path="bidprice">Bid price start at:</form:label><br/>
-                    $<form:input path="bidprice" type="number" maxlength="20" /><br/><br/>
+                    $<form:input path="bidprice" type="number" maxlength="20" required="required"/><br/><br/>
                     </div>
                     <form:input path="status" type="hidden" value="1"/>
                     <form:input path="bidusername" type="hidden" value="NULL"/>

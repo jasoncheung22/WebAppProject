@@ -7,7 +7,7 @@ bidprice INTEGER NOT NULL,
 body VARCHAR(255) NOT NULL,
 status VARCHAR(255) NOT NULL,
 bidusername VARCHAR(255),
-PRIMARY KEY (id)
+PRIMARY KEY (id));
 
 
 CREATE TABLE attachment (
@@ -17,4 +17,4 @@ content_type VARCHAR(255) DEFAULT NULL,
 content BLOB DEFAULT NULL,
 item_id INTEGER DEFAULT NULL,
 PRIMARY KEY (id),
-FOREIGN KEY (item_id) REFERENCES item(id)
+FOREIGN KEY (item_id) REFERENCES item(id))
