@@ -22,6 +22,20 @@ public class Item implements Serializable {
     private String customerName;
     private String subject;
     private String body;
+    private int price;
+    private int bidprice;
+    private int status;
+    private String bidusername;
+
+  public String getBidusername() {
+    return bidusername;
+  }
+
+  public void setBidusername(String bidusername) {
+    this.bidusername = bidusername;
+  }
+    
+    
     @OneToMany(mappedBy = "item", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Attachment> attachments = new ArrayList<>();
@@ -31,6 +45,32 @@ public class Item implements Serializable {
         attachment.setItem(null);
         this.attachments.remove(attachment);
     }
+
+  public int getPrice() {
+    return price;
+  }
+
+  public void setPrice(int price) {
+    this.price = price;
+  }
+
+  public int getBidprice() {
+    return bidprice;
+  }
+
+  public void setBidprice(int bidprice) {
+    this.bidprice = bidprice;
+  }
+
+  public int getStatus() {
+    return status;
+  }
+
+  public void setStatus(int status) {
+    this.status = status;
+  }
+
+
 
     public long getId() {
         return id;

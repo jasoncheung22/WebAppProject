@@ -46,6 +46,16 @@
                     <form:textarea path="body" rows="5" cols="30" /><br/><br/>
                     </div>
                     <div class="form-group">
+                    <form:label path="price">Price</form:label><br/>
+                    $<form:input path="price" type="number" maxlength="20"/><br/><br/>
+                    </div>
+                    <div class="form-group">
+                    <form:label path="bidprice">Bid price start at:</form:label><br/>
+                    $<form:input path="bidprice" type="number" maxlength="20" /><br/><br/>
+                    </div>
+                    <form:input path="status" type="hidden" value="1"/>
+                    <form:input path="bidusername" type="hidden" value="NULL"/>
+                    <div class="form-group">
                     <b>Attachments</b><br/>
                     <input type="file" name="attachments" multiple="multiple"/><br/><br/>
                     </div>

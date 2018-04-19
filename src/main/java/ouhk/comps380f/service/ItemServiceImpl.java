@@ -70,11 +70,15 @@ public class ItemServiceImpl implements ItemService {
     @Override
     @Transactional
     public long createItem(String customerName, String subject,
-            String body, List<MultipartFile> attachments) throws IOException {
+            int price, int bidprice,String body, int status,String bidusername,List<MultipartFile> attachments) throws IOException{
         Item item = new Item();
         item.setCustomerName(customerName);
         item.setSubject(subject);
         item.setBody(body);
+        item.setPrice(price);
+        item.setBidprice(bidprice);
+        item.setStatus(status);
+        item.setBidusername(bidusername);
         for (MultipartFile filePart : attachments) {
             Attachment attachment = new Attachment();
             attachment.setName(filePart.getOriginalFilename());
@@ -116,4 +120,29 @@ public class ItemServiceImpl implements ItemService {
         }
         itemRepo.save(updatedItem);
     }
+    @Override
+    @Transactional(rollbackFor = ItemNotFound.class)
+    public void updateprice(long id, int price, String bidusername) throws IOException, ItemNotFound{
+      Item updatedItem = itemRepo.findOne(id);
+      if (updatedItem == null) {
+            throw new ItemNotFound();
+        }
+      if(updatedItem.getBidprice() > price){
+        return;
+      }
+      updatedItem.setBidprice(price);
+      updatedItem.setBidusername(bidusername);
+      itemRepo.save(updatedItem);
+    }
+    @Override
+    @Transactional(rollbackFor = ItemNotFound.class)
+    public void updatestatus(long id, int status)throws IOException, ItemNotFound{
+      Item updatedItem = itemRepo.findOne(id);
+        if (updatedItem == null) {
+            throw new ItemNotFound();
+        }
+      updatedItem.setStatus(status);
+      itemRepo.save(updatedItem);
+    }
+
 }

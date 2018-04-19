@@ -27,14 +27,19 @@
                 </ul>
                 <security:authorize access = "isAnonymous()">
                     <button class="btn btn-dark" type="button" onclick="window.location.href = '<c:url value="/login" />'">Login</button>
-                </security:authorize>
-                <security:authorize access = "!isAnonymous()">
+                    <button class="btn btn-dark" type="button" onclick="window.location.href = '<c:url value="/user/create" />'">Registration</button>
+                </security:authorize>         
+                  
+                     <security:authorize access = "!isAnonymous()">
+                       
                     <c:url var="logoutUrl" value="/logout"/>
+                    
                     <form action="${logoutUrl}" method="post">
                         <input class="btn btn-dark" type="submit" value="Log out" />
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                     </form>
-                </security:authorize>
+                
+                     </security:authorize>
             </div>
         </nav>
         <div class="container">

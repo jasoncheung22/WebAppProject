@@ -31,7 +31,7 @@ public class BidUserController {
 
     @RequestMapping(value = {"", "list"}, method = RequestMethod.GET)
     public String list(ModelMap model) {
-        model.addAttribute("ticketUsers", bidUserRepo.findAll());
+        model.addAttribute("bidUsers", bidUserRepo.findAll());
         return "listUser";
     }
 
@@ -70,7 +70,7 @@ public class BidUserController {
 
     @RequestMapping(value = "create", method = RequestMethod.GET)
     public ModelAndView create() {
-        return new ModelAndView("addUser", "ticketUser", new Form());
+        return new ModelAndView("addUser", "bidUser", new Form());
     }
 
     @RequestMapping(value = "create", method = RequestMethod.POST)
