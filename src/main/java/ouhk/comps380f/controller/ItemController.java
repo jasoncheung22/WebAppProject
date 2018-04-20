@@ -193,39 +193,6 @@ public class ItemController {
     return "redirect:/item/list";
   }
 
-  @RequestMapping(value = "edit/{itemId}", method = RequestMethod.GET)
-  public ModelAndView showEdit(@PathVariable("itemId") long itemId,
-          Principal principal, HttpServletRequest request) {
-    Item item = itemService.getItem(itemId);
-    if (item == null
-            || (!request.isUserInRole("ROLE_ADMIN")
-            && !principal.getName().equals(item.getCustomerName()))) {
-      return new ModelAndView(new RedirectView("/item/list", true));
-    }
-    ModelAndView modelAndView = new ModelAndView("edit");
-    modelAndView.addObject("item", item);
-    Form itemForm = new Form();
-    itemForm.setSubject(item.getSubject());
-    itemForm.setBody(item.getBody());
-    modelAndView.addObject("itemForm", itemForm);
-    return modelAndView;
-  }
-
-  @RequestMapping(value = "edit/{itemId}", method = RequestMethod.POST)
-  public View edit(@PathVariable("itemId") long itemId, Form form,
-          Principal principal, HttpServletRequest request)
-          throws IOException, ItemNotFound {
-    Item item = itemService.getItem(itemId);
-    if (item == null
-            || (!request.isUserInRole("ROLE_ADMIN")
-            && !principal.getName().equals(item.getCustomerName()))) {
-      return new RedirectView("/item/list", true);
-    }
-    itemService.updateItem(itemId, form.getSubject(),
-            form.getBody(), form.getAttachments());
-    return new RedirectView("/item/view/" + itemId, true);
-  }
-
   @RequestMapping(
           value = "/{itemId}/delete/{attachment:.+}",
           method = RequestMethod.GET

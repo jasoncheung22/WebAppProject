@@ -78,11 +78,7 @@
                                                 </div>
                                             </a>
                                             <security:authorize access = "!isAnonymous()">
-                                                <security:authorize access="hasRole('ADMIN') or
-                                                                    principal.username=='${item.customerName}'">
-                                                    <button type="button" class="btn btn-primary" onclick="window.location.href = '<c:url value="/item/edit/${item.id}" />'">Edit</button>
-                                                </security:authorize>
-                                                <security:authorize access="hasRole('ADMIN') or principal.username=='${item.customerName}'">
+                                                <security:authorize access="hasRole('ADMIN')">
                                                     <button type="button" class="btn btn-primary" onclick="window.location.href = '<c:url value="/item/delete/${item.id}" />'">Delete</button>
                                                 </security:authorize>
                                             </security:authorize>

@@ -97,31 +97,6 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     @Transactional(rollbackFor = ItemNotFound.class)
-    public void updateItem(long id, String subject,
-            String body, List<MultipartFile> attachments)
-            throws IOException, ItemNotFound {
-        Item updatedItem = itemRepo.findOne(id);
-        if (updatedItem == null) {
-            throw new ItemNotFound();
-        }
-        updatedItem.setSubject(subject);
-        updatedItem.setBody(body);
-        for (MultipartFile filePart : attachments) {
-            Attachment attachment = new Attachment();
-            attachment.setName(filePart.getOriginalFilename());
-            attachment.setMimeContentType(filePart.getContentType());
-            attachment.setContents(filePart.getBytes());
-            attachment.setItem(updatedItem);
-            if (attachment.getName() != null && attachment.getName().length() > 0
-                    && attachment.getContents() != null
-                    && attachment.getContents().length > 0) {
-                updatedItem.getAttachments().add(attachment);
-            }
-        }
-        itemRepo.save(updatedItem);
-    }
-    @Override
-    @Transactional(rollbackFor = ItemNotFound.class)
     public void updateprice(long id, int price, String bidusername) throws IOException, ItemNotFound{
       Item updatedItem = itemRepo.findOne(id);
       if (updatedItem == null) {

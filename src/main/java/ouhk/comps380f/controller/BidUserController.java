@@ -6,7 +6,12 @@
 package ouhk.comps380f.controller;
 
 import java.io.IOException;
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +21,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
 import ouhk.comps380f.dao.BidUserRepository;
+import ouhk.comps380f.exception.ItemNotFound;
 import ouhk.comps380f.model.BidUser;
+import ouhk.comps380f.model.UserRole;
+import ouhk.comps380f.service.BidUserService;
 
 /**
  *
@@ -28,6 +36,8 @@ public class BidUserController {
 
     @Resource
     BidUserRepository bidUserRepo;
+    @Autowired
+    private BidUserService UserService;
 
     @RequestMapping(value = {"", "list"}, method = RequestMethod.GET)
     public String list(ModelMap model) {
@@ -65,7 +75,7 @@ public class BidUserController {
         public void setRoles(String[] roles) {
             this.roles = roles;
         }
-        
+
     }
 
     @RequestMapping(value = "create", method = RequestMethod.GET)
@@ -83,8 +93,54 @@ public class BidUserController {
     }
 
     @RequestMapping(value = "delete/{username}", method = RequestMethod.GET)
-    public View deleteBid(@PathVariable("username") String username) {
+    public View deleteBid(@PathVariable("username") String username, HttpServletRequest request) {
+        if (!request.isUserInRole("ROLE_ADMIN")) {
+            return new RedirectView("/user/list", true);
+        }
         bidUserRepo.delete(bidUserRepo.findOne(username));
         return new RedirectView("/user/list", true);
     }
+
+    @RequestMapping(value = "edit/{username}", method = RequestMethod.GET)
+    public ModelAndView showEdit(@PathVariable("username") String username, HttpServletRequest request) {
+        BidUser User = bidUserRepo.findOne(username);
+        if (!request.isUserInRole("ROLE_ADMIN")) {
+            return new ModelAndView(new RedirectView("/item/list", true));
+        }
+        ModelAndView modelAndView = new ModelAndView("edit");
+        modelAndView.addObject("User", User);
+        Form UserForm = new Form();
+        UserForm.setUsername(User.getUsername());
+        UserForm.setPassword(User.getPassword());
+        List<String> roles = new ArrayList<>();
+        for (UserRole role : User.getRoles()) {
+            roles.add(role.getRole());
+        }
+        UserForm.setRoles(roles.toArray(new String[roles.size()]));
+        modelAndView.addObject("UserForm", UserForm);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "edit/{username}", method = RequestMethod.POST)
+    public View edit(@PathVariable("username") String username, Form form,
+            Principal principal, HttpServletRequest request) throws ItemNotFound {
+        BidUser User = bidUserRepo.findOne(username);
+        List<UserRole> list = new ArrayList<>();
+        if (!request.isUserInRole("ROLE_ADMIN")) {
+            return new RedirectView("/item/list", true);
+        }
+        for (String role : form.getRoles()) {
+            UserRole role1 = new UserRole(User, role);
+            list.add(role1);
+        }
+
+        UserService.updateUser(form.getUsername(), form.getPassword(), list);
+        /*  BidUser updatedbidUser = bidUserRepo.findOne(form.getUsername());
+        updatedbidUser.setUsername(form.getUsername());
+        updatedbidUser.setPassword(form.getPassword());
+        updatedbidUser.setRoles(list);
+        bidUserRepo.save(updatedbidUser);*/
+        return new RedirectView("/item/list", true);
+    }
+
 }

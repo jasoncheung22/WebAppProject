@@ -18,3 +18,4 @@ content BLOB DEFAULT NULL,
 item_id INTEGER DEFAULT NULL,
 PRIMARY KEY (id),
 FOREIGN KEY (item_id) REFERENCES item(id))
+

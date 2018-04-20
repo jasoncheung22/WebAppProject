@@ -18,7 +18,7 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="<c:url value="/item/create" />">Create Item<span class="sr-only">(current)</span></a>
                     </li>
-                                        <security:authorize access="hasRole('ADMIN')">
+                    <security:authorize access="hasRole('ADMIN')">
                         <li class="nav-item">
                             <a class="nav-link" href="<c:url value="/user" />">Manage User Accounts</a>
                         </li>
@@ -38,34 +38,24 @@
         </nav>
         <div class="container">
             <div class="jumbotron">   
-                <h1 class="display-4">Item #${itemId}</h1>
-                <form:form method="POST" enctype="multipart/form-data" modelAttribute="itemForm">
+                <h1 class="display-4">Update User</h1>
+                <form:form method="POST" enctype="multipart/form-data" modelAttribute="UserForm">
                     <div class="form-group">
-                    <form:label path="subject">Subject</form:label><br/>
-                    <form:input type="text" path="subject" required="required"/><br/><br/>
+                        <form:label path="username">username</form:label><br/>
+                        <form:input type="text" path="username" required="required"/><br/><br/>
                     </div>
                     <div class="form-group">
-                    <form:label path="body">Body</form:label><br/>
-                    <form:textarea path="body" rows="5" cols="30" /><br/><br/>
+                        <form:label path="password">password</form:label><br/>
+                        <form:input type="text" path="password" required="required" /><br/><br/>
                     </div>
-                    <c:if test="${fn:length(item.attachments) > 0}">
-                        <b>Attachments:</b><br/>
-                        <ul>
-                            <c:forEach items="${item.attachments}" var="attachment">
-                                <li>
-                                    
-                                    <c:out value="${attachment.name}" />
-                                    [<a href="<c:url value="/item/${itemId}/delete/${attachment.name}" />">Delete</a>]
-                                </li>
-                                
-                            </c:forEach>
-                        </ul>
-                    </c:if>
-                    <b>Add attachments</b><br />
-                    <input type="file" name="attachments" multiple="multiple"/><br/><br/>
+                    <div class="form-group">
+                         <form:label path="roles">Roles</form:label><br/>
+                        <form:checkbox path="roles" value="ROLE_USER" />ROLE_USER
+                        <form:checkbox path="roles" value="ROLE_ADMIN" />ROLE_ADMIN
+                    </div>
                     <input type="submit" value="Save"/>
                 </form:form>
-                    <a href="<c:url value="/ticket" />">Return to list tickets</a>
+                 <button type="button" class="btn btn-primary" onclick="window.location.href = '<c:url value="/user" />'">Return to user list</button>
             </div>      
         </div>  
     </body>

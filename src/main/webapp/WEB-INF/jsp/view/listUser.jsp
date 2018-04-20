@@ -60,7 +60,8 @@
                                             </c:forEach>
                                         </td>
                                         <td>
-                                            [<a href="<c:url value="/user/delete/${user.username}" />">Delete</a>]
+                                             <button type="button" class="btn btn-primary" onclick="window.location.href ='<c:url value="/user/edit/${user.username}" />'">Update</button>
+                                              <button type="button" class="btn btn-primary" onclick="window.location.href ='<c:url value="/user/delete/${user.username}" />'">Delete</button>
                                         </td>
                                     </tr>
                                 </tbody>

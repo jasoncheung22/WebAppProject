@@ -14,4 +14,5 @@ import ouhk.comps380f.model.BidUser;
  */
 public interface BidUserRepository extends JpaRepository<BidUser, String>{
     
+   
 }

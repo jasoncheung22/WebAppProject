@@ -25,9 +25,6 @@ public interface ItemService {
     public void updatestatus(long id, int status)throws IOException, ItemNotFound;
     public Item getItem(long id);
 
-    public void updateItem(long id, String subject,
-            String body, List<MultipartFile> attachments)
-            throws IOException, ItemNotFound;
   public void updateprice(long id, int price, String bidusername) throws IOException, ItemNotFound;
     
     public void delete(long id) throws ItemNotFound;
