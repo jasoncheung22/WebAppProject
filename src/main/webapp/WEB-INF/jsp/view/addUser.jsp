@@ -4,7 +4,7 @@
         <title>Customer Support</title>
     </head>
     <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <a class="navbar-brand" href="#">Bid You Like</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -21,7 +21,7 @@
                 </ul>
                 <security:authorize access = "isAnonymous()">
                     <button class="btn btn-dark" type="button" onclick="window.location.href = '<c:url value="/login" />'">Login</button>
-                                  <button class="btn btn-dark" type="button" onclick="window.location.href = '<c:url value="/user/create" />'">Registration</button>
+                    <button class="btn btn-dark" type="button" onclick="window.location.href = '<c:url value="/user/create" />'">Registration</button>
                 </security:authorize>
                 <security:authorize access = "!isAnonymous()">
                     <c:url var="logoutUrl" value="/logout"/>
@@ -32,22 +32,22 @@
                 </security:authorize>
             </div>
         </nav>
-                    
-                    
-                 <div class="container">
-                     <div class="jumbotron">           
-        <h2>Registration</h2>
-        <form:form method="POST" enctype="multipart/form-data"
-                   modelAttribute="bidUser">
-            <form:label path="username">Username</form:label><br/>
-            <form:input type="text" path="username" /><br/><br/>
-            <form:label path="password">Password</form:label><br/>
-            <form:input type="text" path="password" /><br/><br/>
-            <form:hidden path="roles" value="ROLE_USER"/>
-            <br /><br />
-            <input type="submit" value="Add User"/>
-        </form:form>
+
+
+        <div class="container">
+            <div class="jumbotron">           
+                <h2>Registration</h2>
+                <form:form method="POST" enctype="multipart/form-data"
+                           modelAttribute="bidUser">
+                    <form:label path="username">Username</form:label><br/>
+                    <form:input type="text" path="username" /><br/><br/>
+                    <form:label path="password">Password</form:label><br/>
+                    <form:input type="text" path="password" /><br/><br/>
+                    <form:hidden path="roles" value="ROLE_USER"/>
+                    <br /><br />
+                    <input type="submit" class="btn btn-primary" value="Add User"/>
+                </form:form>
             </div>
-                     </div>
+        </div>
     </body>
 </html>

@@ -104,7 +104,7 @@ public class ItemServiceImpl implements ItemService {
         if (updatedItem == null) {
             throw new ItemNotFound();
         }
-        if (updatedItem.getBidprice() > price) {
+        if (updatedItem.getBidprice() >= price) {
             return;
         }
         bidRecord.setPrice(price);

@@ -43,6 +43,7 @@
                         <i>There are no users in the system.</i>
                     </c:when>
                     <c:otherwise>
+
                         <table class="table table-hover">
                             <thead>
                                 <tr>
@@ -59,9 +60,15 @@
                                                 ${role.role}
                                             </c:forEach>
                                         </td>
-                                        <td>
-                                             <button type="button" class="btn btn-primary" onclick="window.location.href ='<c:url value="/user/edit/${user.username}" />'">Update</button>
-                                              <button type="button" class="btn btn-primary" onclick="window.location.href ='<c:url value="/user/delete/${user.username}" />'">Delete</button>
+                                        <td>               
+                                            <security:authorize access = "principal.username=='${user.username}'">
+                                                <button disabled type="button" class="btn btn-primary" onclick="window.location.href = '<c:url value="/user/edit/${user.username}" />'">Update</button>
+                                                <button disabled type="button" class="btn btn-primary" onclick="window.location.href = '<c:url value="/user/delete/${user.username}" />'">Delete</button>  
+                                            </security:authorize>
+                                            <security:authorize access = "principal.username!='${user.username}'">
+                                                <button type="button" class="btn btn-primary" onclick="window.location.href = '<c:url value="/user/edit/${user.username}" />'">Update</button>
+                                                <button type="button" class="btn btn-primary" onclick="window.location.href = '<c:url value="/user/delete/${user.username}" />'">Delete</button>
+                                            </security:authorize>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -69,8 +76,8 @@
                         </table>
                     </c:otherwise>
                 </c:choose>
-                        <button type="button" class="btn btn-primary" onclick="window.location.href ='<c:url value="/item" />'">Return to Home</button>
-                            
+                <button type="button" class="btn btn-primary" onclick="window.location.href = '<c:url value="/item" />'">Return to Home</button>
+
             </div> </div> 
 
     </body>

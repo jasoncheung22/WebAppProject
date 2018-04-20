@@ -41,20 +41,18 @@
                  <h1 class="display-4">Create a Item</h1>
                 <form:form method="POST" enctype="multipart/form-data" modelAttribute="itemForm">
                     <div class="form-group">
-                    <form:label path="subject">Subject</form:label><br/>
+                    <form:label path="subject">Item Name</form:label><br/>
                     </div>
                     <form:input type="text" path="subject" required="required"/><br/><br/>
                     <div class="form-group">
-                    <form:label path="body">Body</form:label><br/>
+                    <form:label path="body">Description</form:label><br/>
                     <form:textarea path="body" rows="5" cols="30" /><br/><br/>
                     </div>
                     <div class="form-group">
                     <form:label path="price">Price</form:label><br/>
-                    $<form:input path="price" type="number" maxlength="20" required="required"/><br/><br/>
-                    </div>
-                    <div class="form-group">
+                    $<form:input path="price" type="number" maxlength="20" required="required" min="1" /><br/>
                     <form:label path="bidprice">Bid price start at:</form:label><br/>
-                    $<form:input path="bidprice" type="number" maxlength="20" required="required"/><br/><br/>
+                    $<form:input path="bidprice" type="number" maxlength="20" required="required" min="1"/><br/><br/>
                     </div>
                     <form:input path="status" type="hidden" value="1"/>
                     <form:input path="bidusername" type="hidden" value="NULL"/>
@@ -62,7 +60,7 @@
                     <b>Attachments</b><br/>
                     <input type="file" name="attachments" multiple="multiple"/><br/><br/>
                     </div>
-                    <input type="submit" value="Submit"/>
+                    <input type="submit" class="btn btn-primary" value="Submit"/>
                 </form:form>
             </div>      
         </div>      

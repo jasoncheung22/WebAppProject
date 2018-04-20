@@ -102,10 +102,13 @@ public class BidUserController {
     }
 
     @RequestMapping(value = "edit/{username}", method = RequestMethod.GET)
-    public ModelAndView showEdit(@PathVariable("username") String username, HttpServletRequest request) {
+    public ModelAndView showEdit(@PathVariable("username") String username, Principal principal, HttpServletRequest request) {
         BidUser User = bidUserRepo.findOne(username);
         if (!request.isUserInRole("ROLE_ADMIN")) {
             return new ModelAndView(new RedirectView("/item/list", true));
+        }
+        if (User.getUsername().equals(principal.getName())) {
+            return new ModelAndView(new RedirectView("/user", true));
         }
         ModelAndView modelAndView = new ModelAndView("edit");
         modelAndView.addObject("User", User);
@@ -129,17 +132,15 @@ public class BidUserController {
         if (!request.isUserInRole("ROLE_ADMIN")) {
             return new RedirectView("/item/list", true);
         }
+        if (User.getUsername().equals(principal.getName())) {
+            return new RedirectView("/user", true);
+        }
         for (String role : form.getRoles()) {
             UserRole role1 = new UserRole(User, role);
             list.add(role1);
         }
 
         UserService.updateUser(form.getUsername(), form.getPassword(), list);
-        /*  BidUser updatedbidUser = bidUserRepo.findOne(form.getUsername());
-        updatedbidUser.setUsername(form.getUsername());
-        updatedbidUser.setPassword(form.getPassword());
-        updatedbidUser.setRoles(list);
-        bidUserRepo.save(updatedbidUser);*/
         return new RedirectView("/item/list", true);
     }
 
