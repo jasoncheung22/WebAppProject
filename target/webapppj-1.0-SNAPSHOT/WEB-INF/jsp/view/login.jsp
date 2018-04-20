@@ -21,6 +21,7 @@
                 </ul>
                 <security:authorize access = "isAnonymous()">
                     <button class="btn btn-dark" type="button" onclick="window.location.href = '<c:url value="/login" />'">Login</button>
+                    <button class="btn btn-dark" type="button" onclick="window.location.href = '<c:url value="/user/create" />'">Registration</button>
                 </security:authorize>
                 <security:authorize access = "!isAnonymous()">
                     <c:url var="logoutUrl" value="/logout"/>

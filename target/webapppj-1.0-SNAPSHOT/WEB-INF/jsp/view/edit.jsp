@@ -42,7 +42,7 @@
                 <form:form method="POST" enctype="multipart/form-data" modelAttribute="itemForm">
                     <div class="form-group">
                     <form:label path="subject">Subject</form:label><br/>
-                    <form:input type="text" path="subject" /><br/><br/>
+                    <form:input type="text" path="subject" required="required"/><br/><br/>
                     </div>
                     <div class="form-group">
                     <form:label path="body">Body</form:label><br/>
@@ -53,6 +53,7 @@
                         <ul>
                             <c:forEach items="${item.attachments}" var="attachment">
                                 <li>
+                                    
                                     <c:out value="${attachment.name}" />
                                     [<a href="<c:url value="/item/${itemId}/delete/${attachment.name}" />">Delete</a>]
                                 </li>
