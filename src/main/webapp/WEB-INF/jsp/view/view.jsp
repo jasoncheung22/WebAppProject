@@ -18,7 +18,7 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="<c:url value="/item/create" />">Create Item<span class="sr-only">(current)</span></a>
                     </li>
-                    <security:authorize access="hasRole('ADMIN')">
+                                        <security:authorize access="hasRole('ADMIN')">
                         <li class="nav-item">
                             <a class="nav-link" href="<c:url value="/user" />">Manage User Accounts</a>
                         </li>
@@ -41,7 +41,7 @@
                 <h1 class="display-4">Item #${itemId}, Item Name:<c:out value="${item.subject}" /></h1>
                 <security:authorize access = "!isAnonymous()">
                     <p class="lead">
-                        <security:authorize access="hasRole('ADMIN')">
+                        <security:authorize access="hasRole('ADMIN') or principal.username=='${item.customerName}'">
                             [<a href="<c:url value="/item/edit/${itemId}" />">Edit</a>]
                         </security:authorize>
                         <security:authorize access="hasRole('ADMIN')">
@@ -51,12 +51,12 @@
                 </security:authorize>
                 <br /><br />
                 <p class="lead">
-                    Owner : <c:out value="${item.customerName}" /><br />
-                    Description:<c:out value="${item.body}" /><br /><br />
-                    Buy it now : $ <c:out value="${item.price}" /><br /><br />
-                    Currency Bid: $<c:out value="${item.bidprice}" /><br /><br />
+                Owner : <c:out value="${item.customerName}" /><br />
+                Description:<c:out value="${item.body}" /><br /><br />
+                Buy it now : $ <c:out value="${item.price}" /><br /><br />
+                Currency Bid: $<c:out value="${item.bidprice}" />       [${fn:length(item.bidRecord)} bids]<br /><br />
                 </p>
-
+                
                 <c:if test="${fn:length(item.attachments) > 0}">
                     Attachments:
                     <c:forEach items="${item.attachments}" var="attachment"
@@ -66,49 +66,65 @@
                             <c:out value="${attachment.name}" /></a>
                     </c:forEach><br /><br />
                 </c:if>
-                Currency Bid Status:
-                <c:choose>
-                    <c:when test="${item.status == 0}">
+                    Currency Bid Status:
+                    <c:choose>
+                      <c:when test="${item.status == 0}">
                         <p class="lead">The Bid is ended by owner.</p>
-                    </c:when>
-                    <c:when test="${item.status == 1}">
-                        <p class="lead">The Bid is running now!!</p>
-                    </c:when>
-                    <c:when test="${item.status == 2}">
-                        <c:out value="The Bid is end! Winner is ${item.bidusername}" />
-                    </c:when>
-                </c:choose><br /><br />
-                <security:authorize access = "!isAnonymous() and principal.username!='${item.customerName}'">
-                    <c:if test="${item.status == 1}">
-                        <form method="POST" enctype="multipart/form-data" name="Bidform" action="bid">
-                            <div class="form-group">      
-                                <label name="bidprice">I want to Bid:$</label><br/>
-                                <input type="number" maxlength="20" name="bidprice" /><br/><br/>
-                            </div>
-                            <input type="hidden" name="id" value="${item.id}"/>
-                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                            <input type="submit" value="Bid"/>
-                        </form>
+                      </c:when>
+                      <c:when test="${item.status == 1}">
+                      <p class="lead">The Bid is running now!!</p>
+                      </c:when>
+                      <c:when test="${item.status == 2}">
+                      <c:out value="The Bid is end! Winner is ${item.bidusername}" />
+                      </c:when>
+                    </c:choose><br /><br />
+                <security:authorize access = "!isAnonymous()">
+                  <c:if test="${item.status == 1}">
+                    <form method="POST" enctype="multipart/form-data" name="Bidform" action="bid">
+                    <div class="form-group">      
+                    <label name="bidprice">I want to Bid:$</label><br/>
+                    <input type="number" maxlength="20" name="bidprice" /><br/><br/>
+                    </div>
+                      <input type="hidden" name="id" value="${item.id}"/>
+                      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    <input type="submit" value="Bid"/>
+                    </form>
                     </c:if>
                     <security:authorize access="principal.username=='${item.customerName}'">
-                        <c:if test="${item.status == 1}">
-                            <form method="POST" enctype="multipart/form-data" name="giveupbid" action="giveupbid">
-                                <input type="hidden" name="id" value="${item.id}"/>
-                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                                <input type="submit" value="Give up the Bid"/>
-                            </form>
-                        </c:if>
-                        <c:if test="${item.bidusername != "NULL" and item.status == 1}">
-                            <form method="POST" enctype="multipart/form-data" name="endform" action="endbid">
-                                <input type="hidden" name="id" value="${item.id}"/>
-                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                                <input type="submit" value="End Bid with winner"/>
-                            </form>
-                        </c:if>
+                    <c:if test="${item.status == 1}">
+                    <form method="POST" enctype="multipart/form-data" name="giveupbid" action="giveupbid">
+                    <input type="hidden" name="id" value="${item.id}"/>
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    <input type="submit" value="Give up the Bid"/>
+                    </form>
+                    </c:if>
+                    <c:if test="${item.bidusername != "NULL" and item.status == 1}">
+                     <form method="POST" enctype="multipart/form-data" name="endform" action="endbid">
+                      <input type="hidden" name="id" value="${item.id}"/>
+                      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    <input type="submit" value="End Bid with winner"/>
+                    </form>
+                    </c:if>
                     </security:authorize>
-                </security:authorize>
-
-
+                    </security:authorize>
+                <c:choose>
+                    <c:when test = "${fn:length(item.comments) > 0}">
+                        <c:forEach items="${item.comments}" var="acomment">
+                            ${acomment.username} say:
+                            ${acomment.comment}</br>
+                        </c:forEach>
+                    </c:when>
+                    <c:otherwise>
+                        No Comment Now!!!!!
+                    </c:otherwise>
+                </c:choose>
+                    <security:authorize access = "!isAnonymous()">
+                        <form:form method="POST" enctype="multipart/form-data" modelAttribute="commentForm" action="${item.id}/comment">
+                            <form:textarea path="comment" rows="5" cols="30" /><br/><br/>
+                            <input type="submit" value="Leave My Comment"/>
+                        </form:form>
+                    </security:authorize>
+            
                 <a href="<c:url value="/item" />">Return to list items</a>
             </div>      
         </div>  

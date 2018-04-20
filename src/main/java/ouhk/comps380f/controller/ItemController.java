@@ -33,6 +33,27 @@ public class ItemController {
   private AttachmentService attachmentService;
 // Controller methods, Form object ...
 
+  public static class CommentForm{
+      private String username;
+      private String comment;
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public String getComment() {
+            return comment;
+        }
+
+        public void setComment(String comment) {
+            this.comment = comment;
+        }
+              
+  }
   public static class Form {
 
     private String subject;
@@ -102,8 +123,6 @@ public class ItemController {
    
 
   }
-
-  
   
 
   @RequestMapping(value = "create", method = RequestMethod.GET)
@@ -128,11 +147,21 @@ public class ItemController {
   public String view(@PathVariable("itemId") long itemId,
           ModelMap model) {
     Item item = itemService.getItem(itemId);
+
     if (item == null) {
       return "redirect:/item/list";
     }
     model.addAttribute("item", item);
+    model.addAttribute("commentForm", new CommentForm());
     return "view";
+  }
+  
+  @RequestMapping(value = "view/{itemId}/comment", method = RequestMethod.POST)
+  public View comment(@PathVariable("itemId") long itemId, 
+            CommentForm commentForm,Principal principal, HttpServletRequest request) 
+          throws IOException, ItemNotFound {
+      itemService.createComment(itemId,principal.getName(), commentForm.comment);
+      return new RedirectView("/item/view/" + itemId, true);
   }
   
     @RequestMapping(value = "view/bid", method = RequestMethod.POST)

@@ -16,8 +16,9 @@ import ouhk.comps380f.dao.ItemRepository;
 import ouhk.comps380f.exception.AttachmentNotFound;
 import ouhk.comps380f.exception.ItemNotFound;
 import ouhk.comps380f.model.Attachment;
+import ouhk.comps380f.model.BidRecord;
+import ouhk.comps380f.model.Comment;
 import ouhk.comps380f.model.Item;
-
 
 /**
  *
@@ -70,7 +71,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     @Transactional
     public long createItem(String customerName, String subject,
-            int price, int bidprice,String body, int status,String bidusername,List<MultipartFile> attachments) throws IOException{
+            int price, int bidprice, String body, int status, String bidusername, List<MultipartFile> attachments) throws IOException {
         Item item = new Item();
         item.setCustomerName(customerName);
         item.setSubject(subject);
@@ -120,29 +121,51 @@ public class ItemServiceImpl implements ItemService {
         }
         itemRepo.save(updatedItem);
     }
+
     @Override
     @Transactional(rollbackFor = ItemNotFound.class)
-    public void updateprice(long id, int price, String bidusername) throws IOException, ItemNotFound{
-      Item updatedItem = itemRepo.findOne(id);
-      if (updatedItem == null) {
-            throw new ItemNotFound();
-        }
-      if(updatedItem.getBidprice() > price){
-        return;
-      }
-      updatedItem.setBidprice(price);
-      updatedItem.setBidusername(bidusername);
-      itemRepo.save(updatedItem);
-    }
-    @Override
-    @Transactional(rollbackFor = ItemNotFound.class)
-    public void updatestatus(long id, int status)throws IOException, ItemNotFound{
-      Item updatedItem = itemRepo.findOne(id);
+    public void updateprice(long id, int price, String bidusername) throws IOException, ItemNotFound {
+        Item updatedItem = itemRepo.findOne(id);
+        BidRecord bidRecord = new BidRecord();
         if (updatedItem == null) {
             throw new ItemNotFound();
         }
-      updatedItem.setStatus(status);
-      itemRepo.save(updatedItem);
+        if (updatedItem.getBidprice() > price) {
+            return;
+        }
+        bidRecord.setPrice(price);
+        bidRecord.setUsername(bidusername);
+        bidRecord.setItem(updatedItem);
+        updatedItem.setBidprice(price);
+        updatedItem.setBidusername(bidusername);
+        updatedItem.getBidRecord().add(bidRecord);
+        itemRepo.save(updatedItem);
+    }
+
+    @Override
+    @Transactional(rollbackFor = ItemNotFound.class)
+    public void updatestatus(long id, int status) throws IOException, ItemNotFound {
+        Item updatedItem = itemRepo.findOne(id);
+        if (updatedItem == null) {
+            throw new ItemNotFound();
+        }
+        updatedItem.setStatus(status);
+        itemRepo.save(updatedItem);
+    }
+
+    @Override
+    @Transactional(rollbackFor = ItemNotFound.class)
+    public void createComment(long id, String userName, String Comment) throws IOException, ItemNotFound {
+        Comment comment = new Comment();
+        Item commentItem = itemRepo.findOne(id);
+        if (commentItem == null) {
+            throw new ItemNotFound();
+        }
+        comment.setUsername(userName);
+        comment.setComment(Comment);
+        comment.setItem(commentItem);
+        commentItem.getComments().add(comment);
+        itemRepo.save(commentItem);
     }
 
 }

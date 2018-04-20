@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 public class Item implements Serializable {
@@ -27,50 +29,70 @@ public class Item implements Serializable {
     private int status;
     private String bidusername;
 
-  public String getBidusername() {
-    return bidusername;
-  }
+    public String getBidusername() {
+        return bidusername;
+    }
 
-  public void setBidusername(String bidusername) {
-    this.bidusername = bidusername;
-  }
-    
-    
+    public void setBidusername(String bidusername) {
+        this.bidusername = bidusername;
+    }
+    @Fetch(FetchMode.SELECT)
+    @OneToMany(mappedBy = "item", fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
+    @Fetch(FetchMode.SELECT)
     @OneToMany(mappedBy = "item", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Attachment> attachments = new ArrayList<>();
+    @OneToMany(mappedBy = "item", fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BidRecord> bidRecord = new ArrayList<>();
+
+    public List<BidRecord> getBidRecord() {
+        return bidRecord;
+    }
+
+    public void setBidRecord(List<BidRecord> bidRecord) {
+        this.bidRecord = bidRecord;
+    }
+
 // getters and setters of all properties
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 
     public void deleteAttachment(Attachment attachment) {
         attachment.setItem(null);
         this.attachments.remove(attachment);
     }
 
-  public int getPrice() {
-    return price;
-  }
+    public int getPrice() {
+        return price;
+    }
 
-  public void setPrice(int price) {
-    this.price = price;
-  }
+    public void setPrice(int price) {
+        this.price = price;
+    }
 
-  public int getBidprice() {
-    return bidprice;
-  }
+    public int getBidprice() {
+        return bidprice;
+    }
 
-  public void setBidprice(int bidprice) {
-    this.bidprice = bidprice;
-  }
+    public void setBidprice(int bidprice) {
+        this.bidprice = bidprice;
+    }
 
-  public int getStatus() {
-    return status;
-  }
+    public int getStatus() {
+        return status;
+    }
 
-  public void setStatus(int status) {
-    this.status = status;
-  }
-
-
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     public long getId() {
         return id;

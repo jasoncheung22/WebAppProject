@@ -21,7 +21,5 @@ ouhk.comps380f.service" />
         <property name="prefix" value="/WEB-INF/jsp/view/" />
         <property name="suffix" value=".jsp" />
     </bean>
-    <mvc:resources mapping="/resources/**" location="/resources/"
-    cache-period="31556926"/>
+    
 </beans>
-
