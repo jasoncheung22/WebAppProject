@@ -54,7 +54,10 @@
                     Owner : <c:out value="${item.customerName}" /><br />
                     Description:<c:out value="${item.body}" /><br /><br />
                     Buy it now : $ <c:out value="${item.price}" /><br /><br />
-                    Currency Bid: $<c:out value="${item.bidprice}" /><br /><br />
+                    Currency Bid: $<c:out value="${item.bidprice}" />       [${fn:length(item.bidRecord)} bids]<br /><br />
+                    <c:forEach items="${item.bidRecord}" var="aBidRecord">
+                        ${aBidRecord.username} offered $${aBidRecord.price}
+                    </c:forEach>
                 </p>
 
                 <c:if test="${fn:length(item.attachments) > 0}">
@@ -107,7 +110,23 @@
                         </c:if>
                     </security:authorize>
                 </security:authorize>
-
+                <c:choose>
+                    <c:when test = "${fn:length(item.comments) > 0}">
+                        <c:forEach items="${item.comments}" var="acomment">
+                            ${acomment.username} say:
+                            ${acomment.comment}</br>
+                        </c:forEach>
+                    </c:when>
+                    <c:otherwise>
+                        No Comment Now!!!!!
+                    </c:otherwise>
+                </c:choose>
+                <security:authorize access = "!isAnonymous()">
+                    <form:form method="POST" enctype="multipart/form-data" modelAttribute="commentForm" action="${item.id}/comment">
+                        <form:textarea path="comment" rows="5" cols="30" /><br/><br/>
+                        <input type="submit" value="Leave My Comment"/>
+                    </form:form>
+                </security:authorize>
 
                 <a href="<c:url value="/item" />">Return to list items</a>
             </div>      
