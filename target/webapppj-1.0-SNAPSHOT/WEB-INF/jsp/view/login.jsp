@@ -16,7 +16,7 @@
                         <a class="nav-link" href="<c:url value="/item" />">Home</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="<c:url value="/item/create" />">Create Item<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="<c:url value="/item/create" />">Create Item</a>
                     </li>
                 </ul>
                 <security:authorize access = "isAnonymous()">

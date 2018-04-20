@@ -19,15 +19,20 @@ import ouhk.comps380f.model.Item;
 public interface ItemService {
 
     public long createItem(String customerName, String subject,
-            String body, List<MultipartFile> attachments) throws IOException;
+            int price, int bidprice, String body, int status, String bidusername, List<MultipartFile> attachments) throws IOException;
 
     public List<Item> getItems();
 
-    public Item getItem(long id);
+    public void updatestatus(long id, int status) throws IOException, ItemNotFound;
 
+    public Item getItem(long id);
+    
+    public void createComment(long id, String userName, String comment) throws IOException, ItemNotFound ;
     public void updateItem(long id, String subject,
             String body, List<MultipartFile> attachments)
             throws IOException, ItemNotFound;
+
+    public void updateprice(long id, int price, String bidusername) throws IOException, ItemNotFound;
 
     public void delete(long id) throws ItemNotFound;
 
