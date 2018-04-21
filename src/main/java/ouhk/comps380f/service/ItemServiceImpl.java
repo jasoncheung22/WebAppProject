@@ -81,16 +81,26 @@ public class ItemServiceImpl implements ItemService {
         item.setStatus(status);
         item.setBidusername(bidusername);
         for (MultipartFile filePart : attachments) {
-            Attachment attachment = new Attachment();
-            attachment.setName(filePart.getOriginalFilename());
-            attachment.setMimeContentType(filePart.getContentType());
-            attachment.setContents(filePart.getBytes());
-            attachment.setItem(item);
-            if (attachment.getName() != null && attachment.getName().length() > 0
-                    && attachment.getContents() != null
-                    && attachment.getContents().length > 0) {
-                item.getAttachments().add(attachment);
-            }
+            if (!"image/png".equals(filePart.getContentType()) &&
+                    !"image/bmp".equals(filePart.getContentType()) &&
+                    !"image/cgm".equals(filePart.getContentType()) && 
+                    !"image/gif".equals(filePart.getContentType()) &&
+                    !"image/ief".equals(filePart.getContentType()) &&
+                    !"image/jpeg".equals(filePart.getContentType()) &&
+                    !"image/tiff".equals(filePart.getContentType()) &&
+                    !"image/png".equals(filePart.getContentType())) {
+                continue;
+                }
+                Attachment attachment = new Attachment();
+                attachment.setName(filePart.getOriginalFilename());
+                attachment.setMimeContentType(filePart.getContentType());
+                attachment.setContents(filePart.getBytes());
+                attachment.setItem(item);
+                if (attachment.getName() != null && attachment.getName().length() > 0
+                        && attachment.getContents() != null
+                        && attachment.getContents().length > 0) {
+                    item.getAttachments().add(attachment);
+                }
         }
         Item savedItem = itemRepo.save(item);
         return savedItem.getId();

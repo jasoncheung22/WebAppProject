@@ -224,7 +224,7 @@
                                             <input type="submit" class="btn btn-danger" value="Give up the Bid"/>
                                         </form>
                                     </c:if>
-                                    <c:if test="${item.bidusername != "NULL" and item.status == 1}">
+                                    <c:if test="${(item.bidusername != 'NULL') and (item.status == 1)}">
                                         <form method="POST" enctype="multipart/form-data" name="endform" action="endbid">
                                             <input type="hidden" name="id" value="${item.id}"/>
                                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

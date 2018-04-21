@@ -58,7 +58,7 @@
                     <form:input path="bidusername" type="hidden" value="NULL"/>
                     <div class="form-group">
                     <b>Attachments</b><br/>
-                    <input type="file" name="attachments" multiple="multiple"/><br/><br/>
+                    <input type="file" name="attachments" multiple="multiple" accept="image/*"/><br/><br/>
                     </div>
                     <input type="submit" class="btn btn-primary" value="Submit"/>
                 </form:form>
