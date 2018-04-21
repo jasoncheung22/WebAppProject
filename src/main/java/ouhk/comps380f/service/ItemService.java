@@ -28,6 +28,7 @@ public interface ItemService {
     public Item getItem(long id);
 
     public void createComment(long id, String userName, String comment) throws IOException, ItemNotFound;
+    public void deleteComment(long itemId,long commentId) throws IOException;
 
     public void updateprice(long id, int price, String bidusername) throws IOException, ItemNotFound;
 

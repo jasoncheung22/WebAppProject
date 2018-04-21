@@ -95,7 +95,7 @@
                         <security:authorize access = "!isAnonymous()">
                             <p class="lead">
                                 <security:authorize access="hasRole('ADMIN')">
-                                    <button class="btn btn-danger" type="button" onclick="window.location.href ='<c:url value="/item/delete/${itemId}" />'">Delete</button>
+                                    <button class="btn btn-danger" type="button" onclick="window.location.href = '<c:url value="/item/delete/${itemId}" />'">Delete</button>
                                 </security:authorize>
                             </p>
                         </security:authorize>
@@ -179,6 +179,9 @@
                                                             <tr>
                                                                 <th scope="row">${acomment.username} say:</th>
                                                                 <td>${acomment.comment}</td>
+                                                                <security:authorize access="hasRole('ADMIN')">
+                                                                    <td><button type="button" class="btn btn-primary" onclick="window.location.href = '<c:url value="${item.id}/comment/delete/${acomment.id}" />'">Remove</button></td>
+                                                                </security:authorize>
                                                             </tr>
                                                         </c:forEach>
                                                     </tbody>
@@ -213,22 +216,22 @@
                                 </c:if>
                             </security:authorize>
                             <security:authorize access = "!isAnonymous()">
-                            <security:authorize access="principal.username=='${item.customerName}'">
-                                <c:if test="${item.status == 1}">
-                                    <form method="POST" enctype="multipart/form-data" name="giveupbid" action="giveupbid">
-                                        <input type="hidden" name="id" value="${item.id}"/>
-                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                                        <input type="submit" class="btn btn-danger" value="Give up the Bid"/>
-                                    </form>
-                                </c:if>
-                                <c:if test="${item.bidusername != "NULL" and item.status == 1}">
-                                    <form method="POST" enctype="multipart/form-data" name="endform" action="endbid">
-                                        <input type="hidden" name="id" value="${item.id}"/>
-                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                                        <input type="submit" class="btn btn-danger" value="End Bid with winner"/>
-                                    </form>
-                                </c:if>
-                            </security:authorize>
+                                <security:authorize access="principal.username=='${item.customerName}'">
+                                    <c:if test="${item.status == 1}">
+                                        <form method="POST" enctype="multipart/form-data" name="giveupbid" action="giveupbid">
+                                            <input type="hidden" name="id" value="${item.id}"/>
+                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                            <input type="submit" class="btn btn-danger" value="Give up the Bid"/>
+                                        </form>
+                                    </c:if>
+                                    <c:if test="${item.bidusername != "NULL" and item.status == 1}">
+                                        <form method="POST" enctype="multipart/form-data" name="endform" action="endbid">
+                                            <input type="hidden" name="id" value="${item.id}"/>
+                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                            <input type="submit" class="btn btn-danger" value="End Bid with winner"/>
+                                        </form>
+                                    </c:if>
+                                </security:authorize>
                             </security:authorize>
 
                         </div>
@@ -256,7 +259,7 @@
                                     <tbody>
                                         <c:forEach items="${item.bidRecord}" var="aBidRecord">
                                             <tr>
-                                                <th scope="row">${aBidRecord.username} offered</th>
+                                                <th scope="row">${aBidRecord.username}</th>
                                                 <td>${aBidRecord.price}</td>
                                             </tr>
                                         </c:forEach>

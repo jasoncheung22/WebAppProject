@@ -142,4 +142,18 @@ public class ItemServiceImpl implements ItemService {
         itemRepo.save(commentItem);
     }
 
+    @Override
+    @Transactional
+    public void deleteComment(long itemId, long commentId) throws IOException {
+        Item deleteCommentItem = itemRepo.findOne(itemId);
+        for (Comment comment : deleteCommentItem.getComments()) {
+            if (comment.getId() == commentId) {
+                deleteCommentItem.deleteComment(comment);
+                itemRepo.save(deleteCommentItem);
+                return;
+            }
+        }
+
+    }
+
 }

@@ -162,6 +162,14 @@ public class ItemController {
         return new RedirectView("/item/view/" + itemId, true);
     }
 
+    @RequestMapping(value = "view/{itemId}/comment/delete/{commentId}", method = RequestMethod.GET)
+    public View commentDelete(@PathVariable("commentId") long commentId,
+            @PathVariable("itemId") long itemId,Principal principal, HttpServletRequest request)
+            throws IOException, ItemNotFound {
+        itemService.deleteComment(itemId,commentId);
+        return new RedirectView("/item/view/" + itemId, true);
+    }
+
     @RequestMapping(value = "view/bid", method = RequestMethod.POST)
     public String bid(@RequestParam("id") long itemId, @RequestParam("bidprice") int price,
             Principal principal, HttpServletRequest request)
