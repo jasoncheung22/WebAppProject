@@ -122,11 +122,17 @@
                                             <td>No bid yet!</td>
                                         </c:when>
                                         <c:otherwise>
-                                            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                                    <c:out value="${fn:length(item.bidRecord)}"/> bids
-                                                </button></td>
-                                            </c:otherwise>
-                                        </c:choose>
+                                            <security:authorize access = "!isAnonymous()">
+                                                <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                                        <c:out value="${fn:length(item.bidRecord)}"/> bids
+                                                    </security:authorize>
+                                                    <security:authorize access = "isAnonymous()">
+                                                        <td><button disabled type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                                                <c:out value="${fn:length(item.bidRecord)}"/> bids
+                                                            </security:authorize>        
+                                                        </button></td>
+                                                    </c:otherwise>
+                                                </c:choose>
                                 </tr>
                                 <tr>
                                     <th scope="row">Currency Bid Status: </th>
