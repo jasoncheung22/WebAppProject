@@ -18,9 +18,12 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="#">Create Item<span class="sr-only">(current)</span></a>
                     </li>
+                    <security:authorize access="hasRole('ADMIN')">
                     <li class="nav-item">
                      <a class="nav-link" href="<c:url value="/user" />">Manage User Accounts<span class="sr-only">(current)</span></a>
-                </li>
+               
+                    </li>
+                    </security:authorize>
                 </ul>
                 <security:authorize access = "isAnonymous()">
                     <button class="btn btn-dark" type="button" onclick="window.location.href = '<c:url value="/login" />'">Login</button>

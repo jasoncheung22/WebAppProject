@@ -32,6 +32,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
         <intercept-url pattern="/user" access="hasRole('ADMIN')" />
         <intercept-url pattern="/user/edit/**" access="hasRole('ADMIN')" />
         <intercept-url pattern="/user/delete/**" access="hasRole('ADMIN')" />
+        <intercept-url pattern="/user/admin/**" access="hasRole('ADMIN')" />
         <form-login login-page="/login" authentication-failure-url="/login?error" />
         <logout logout-success-url="/login?logout"
                 invalidate-session="true"
