@@ -41,8 +41,8 @@
                 <h1 class="display-4">Update User</h1>
                 <form:form method="POST" enctype="multipart/form-data" modelAttribute="UserForm">
                     <div class="form-group">
-                        <form:label path="username">username</form:label><br/>
-                        <form:input type="text" path="username" required="required"/><br/><br/>
+                        <form:label path="username">username:${User.username}</form:label><br/>
+
                     </div>
                     <div class="form-group">
                         <form:label path="password">password</form:label><br/>

@@ -89,11 +89,29 @@ public class BidUserController {
                 form.getPassword(), form.getRoles()
         );
         BidUser bidUser = bidUserRepo.findOne(form.getUsername());
-        if(bidUser.getUsername() != null){
-            return new RedirectView("/item/list", true);
+        if (bidUser != null) {
+            return new RedirectView("/item", true);
         }
         bidUserRepo.save(user);
-        return new RedirectView("/item/list", true);
+        return new RedirectView("/item", true);
+    }
+
+    @RequestMapping(value = "/admin/create", method = RequestMethod.GET)
+    public ModelAndView admincreate() {
+        return new ModelAndView("adminaddUser", "bidUser", new Form());
+    }
+
+    @RequestMapping(value = "/admin/create", method = RequestMethod.POST)
+    public View admincreate(Form form) throws IOException {
+        BidUser user = new BidUser(form.getUsername(),
+                form.getPassword(), form.getRoles()
+        );
+        BidUser bidUser = bidUserRepo.findOne(form.getUsername());
+        if (bidUser != null) {
+            return new RedirectView("/user", true);
+        }
+        bidUserRepo.save(user);
+        return new RedirectView("/user", true);
     }
 
     @RequestMapping(value = "delete/{username}", method = RequestMethod.GET)
@@ -144,7 +162,7 @@ public class BidUserController {
             list.add(role1);
         }
 
-        UserService.updateUser(form.getUsername(), form.getPassword(), list);
+        UserService.updateUser(username, form.getPassword(), list);
         return new RedirectView("/item/list", true);
     }
 

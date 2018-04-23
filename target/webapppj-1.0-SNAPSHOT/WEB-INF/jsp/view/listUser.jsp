@@ -38,6 +38,7 @@
         <div class="container">
             <div class="jumbotron">
                 <h2>Users</h2>
+                <button class="btn btn-primary" type="button" onclick="window.location.href = '<c:url value="/user/admin/create" />'">Create User</button>
                 <c:choose>
                     <c:when test="${fn:length(bidUsers) == 0}">
                         <i>There are no users in the system.</i>
