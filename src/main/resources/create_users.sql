@@ -15,12 +15,3 @@ CREATE TABLE user_roles (
 INSERT INTO users VALUES ('admin', 'admin');
 INSERT INTO user_roles(username, role) VALUES ('admin', 'ROLE_USER');
 INSERT INTO user_roles(username, role) VALUES ('admin', 'ROLE_ADMIN');
-
-INSERT INTO users VALUES ('user1', 'user1');
-INSERT INTO user_roles(username, role) VALUES ('user1', 'ROLE_ADMIN');
-
-INSERT INTO users VALUES ('user2', 'user2');
-INSERT INTO user_roles(username, role) VALUES ('user2', 'ROLE_USER');
-
-INSERT INTO users VALUES ('user3', 'user3');
-INSERT INTO user_roles(username, role) VALUES ('user3', 'ROLE_USER');
