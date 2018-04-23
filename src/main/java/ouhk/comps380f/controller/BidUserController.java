@@ -88,6 +88,10 @@ public class BidUserController {
         BidUser user = new BidUser(form.getUsername(),
                 form.getPassword(), form.getRoles()
         );
+        BidUser bidUser = bidUserRepo.findOne(form.getUsername());
+        if(bidUser.getUsername() != null){
+            return new RedirectView("/item/list", true);
+        }
         bidUserRepo.save(user);
         return new RedirectView("/item/list", true);
     }

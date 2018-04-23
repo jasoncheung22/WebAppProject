@@ -186,7 +186,7 @@
                                                                 <th scope="row">${acomment.username} say:</th>
                                                                 <td>${acomment.comment}</td>
                                                                 <security:authorize access="hasRole('ADMIN')">
-                                                                    <td><button type="button" class="btn btn-primary" onclick="window.location.href = '<c:url value="${item.id}/comment/delete/${acomment.id}" />'">Remove</button></td>
+                                                                    <td><button  type="button" class="btn btn-primary" onclick="window.location.href = '<c:url value="${item.id}/comment/delete/${acomment.id}" />'" >Remove</button></td>
                                                                 </security:authorize>
                                                             </tr>
                                                         </c:forEach>
@@ -201,7 +201,7 @@
                                         <security:authorize access = "!isAnonymous()">
                                             Leave your comment here 
                                             <form:form method="POST" enctype="multipart/form-data" modelAttribute="commentForm" action="${item.id}/comment">
-                                                <form:textarea path="comment" rows="2" cols="40" /><br/><br/>
+                                                <form:textarea path="comment" rows="2" cols="40" required="required"/><br/><br/>
                                                 <input class="btn btn-primary mb-2" type="submit" value="Leave My Comment"/>
                                             </form:form>
                                         </security:authorize>
@@ -213,7 +213,7 @@
                                     <form method="POST" enctype="multipart/form-data" name="Bidform" action="bid">
                                         <div class="form-group">      
                                             <label name="bidprice">I want to Bid:$</label><br/>
-                                            <input type="number" maxlength="20" name="bidprice" /><br/><br/>
+                                            <input type="number" maxlength="20" name="bidprice" required="required" min="${item.bidprice+1}"/><br/><br/>
                                         </div>
                                         <input type="hidden" name="id" value="${item.id}"/>
                                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
